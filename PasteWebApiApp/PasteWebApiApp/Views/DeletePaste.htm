@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+        Delete Paste
+    </title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    
+<style type="text/css">
+
+	.delete-form {
+		width: 340px;
+		margin: 50px auto;
+	}
+	
+	.delete-form form {
+		margin-bottom: 15px;
+		background: #f7f7f7;
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+		padding: 30px;
+	}
+	
+	.delete-form h2 {
+		margin: 0 0 15px;
+	}
+	
+	.form-control, .btn {
+		min-height: 38px;
+		border-radius: 2px;
+	}
+	
+	.btn {        
+		font-size: 15px;
+		font-weight: bold;
+	}
+
+</style>
+
+</head>
+
+<body>
+
+	<div class="delete-form">	
+		<form>		
+			<h4 class="text-center">Delete Paste</h4>
+			
+			<div class="form-group">
+				<div class="input-group">                                        				
+					<label for="pasteKey">Input Key</label>
+					<input type="text" required="required" id="pasteKey" class="form-control" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+                <span>Status:</span>
+                <span id="response" style="font-weight: bold"></span>
+			</div>
+
+			<div class="form-group">
+				<button type="button" onclick="DeletePaste()" class="btn btn-primary">Delete</button>
+			</div>			
+		</form>
+	</div>
+
+<script>
+
+    function DeletePaste() {
+
+        fetch("http://localhost:5069/api/Paste/" + $("#pasteKey").val(), { method: "DELETE" })
+        .then(function (response) {
+
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(function (responseJson) {
+            $("#response").text("Deleted").css('color', "green");
+        })
+        .catch(function (error) {
+            $("#response").text(error).css('color', "red");
+        });
+    }
+
+</script>
+</body>
+</html>
